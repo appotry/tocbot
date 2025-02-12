@@ -1,9 +1,9 @@
 /* Styles */
 
 // Page
-@import 'page-styles';
-@import 'code-styles';
-@import 'tocbot-responsive';
+@use 'page-styles';
+@use 'code-styles';
+@use 'tocbot-responsive';
 
 * {
   box-sizing: border-box;
@@ -23,7 +23,7 @@ h3,
 h4,
 h5,
 h6 {
-  padding-top: 0.5em;
+  padding-top: 1.8em;
 }
 
 h1:focus,

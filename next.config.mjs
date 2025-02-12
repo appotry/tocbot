@@ -1,13 +1,13 @@
-const assetPrefix = '/tocbot'
+const assetPrefix = "/tocbot"
 
-module.exports = {
+export default {
   assetPrefix,
   webpack: (webpackConfig) => {
     const newConfig = Object.assign({}, webpackConfig)
     return newConfig
   },
   exportPathMap: () => ({
-    '/': { page: '/' },
-    '/changelog': { page: '/changelog' }
-  })
+    "/": { page: "/" },
+    "/changelog": { page: "/changelog" },
+  }),
 }

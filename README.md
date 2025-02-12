@@ -4,7 +4,7 @@
 
 <a class="no-decoration" href="https://github.com/tscanlin/tocbot/actions" target="_blank"><img src="https://github.com/tscanlin/tocbot/actions/workflows/node.js.yml/badge.svg" alt="github-actions" /></a>
 <a class="no-decoration" href="https://cdnjs.com/libraries/tocbot" rel="nofollow"><img src="https://img.shields.io/cdnjs/v/tocbot" alt="cdnjs" style="max-width: 100%;"></a>
-
+<a class="no-decoration" href="https://github.com/sponsors/tscanlin" rel="nofollow"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/tscanlin"></a>
 
 Tocbot builds a [table of contents](https://en.wikipedia.org/wiki/Table_of_contents) (TOC) from headings in an HTML document. This is useful for documentation websites or long markdown pages because it makes them easier to navigate. This library was inspired by [Tocify](http://gregfranko.com/jquery.tocify.js/), the main difference is that Tocbot uses native DOM methods and avoids the jQuery & jQuery UI dependencies.
 
@@ -24,12 +24,23 @@ Install it with npm.
 npm install --save tocbot
 ```
 
+Then use with either commonjs or ESM imports:
+
+```js
+const tocbot = require('tocbot/dist/tocbot.js')
+// OR
+import tocbot from 'tocbot'
+
+// Initialize tocbot
+tocbot.init()
+```
+
 OR
 
 Include the script at the bottom of the page before the closing body tag.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.32.2/tocbot.min.js"></script>
 ```
 
 
@@ -38,7 +49,7 @@ Include the script at the bottom of the page before the closing body tag.
 CSS is used for expanding & collapsing groupings and some basic styling.
 
 ```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.32.2/tocbot.css">
 ```
 
 OR
@@ -67,7 +78,7 @@ tocbot.init({
 });
 ```
 
-**NOTE:** Make sure the body is scrollable and the document headings have id attributes, tocbot and your browser needs these things to make hashes jump to the proper heading, some markdown libraries (like [marked](https://github.com/chjj/marked)) already do this for you.
+**NOTE:** Make sure the body is scrollable and the document headings have id attributes, tocbot and your browser needs these things to make hashes jump to the proper heading. Some markdown libraries already do this for you: [marked](https://github.com/markedjs/marked) [can be configured to generate IDs based on patterns you define](https://github.com/markedjs/marked/issues/326#issuecomment-2567091770); [Showdown.js](https://showdownjs.com) generates IDs by default.
 
 If content in the div has changed then trigger a refresh (optionally with new options).
 
@@ -92,8 +103,8 @@ tocbot.destroy();
 ## Examples
 
 - [Tocbot Homepage](https://tscanlin.github.io/tocbot/)
-- [Pagekit TOC](https://spqr.wtf/projects/toc)
-- [Optimizely's Developer Documentation](https://developers.optimizely.com/x/solutions/javascript/reference/index.html)
+- [Storybook uses Tocbot](https://storybook.js.org/docs/writing-docs/autodocs#configure-the-table-of-contents)
+  - Tocbot is used under the hood in storybook to provide TOC generation for component docs in storybook.
 
 If you'd like to add your page to this list open a pull request.
 
@@ -129,16 +140,17 @@ tocbot.init({
 // Where to render the table of contents.
 tocSelector: '.js-toc',
 // Or, you can pass in a DOM node instead
-tocElement: element,
+tocElement: null,
 // Where to grab the headings to build the table of contents.
 contentSelector: '.js-toc-content',
 // Or, you can pass in a DOM node instead
-contentElement: element,
+contentElement: null,
 // Which headings to grab inside of the contentSelector element.
 headingSelector: 'h1, h2, h3',
 // Headings that match the ignoreSelector will be skipped.
 ignoreSelector: '.js-toc-ignore',
-// For headings inside relative or absolute positioned containers within content
+// For headings inside relative or absolute positioned
+// containers within content.
 hasInnerContainers: false,
 // Main class to add to links.
 linkClass: 'toc-link',
@@ -174,7 +186,8 @@ scrollSmoothDuration: 420,
 scrollSmoothOffset: 0,
 // Callback for scroll end.
 scrollEndCallback: function (e) {},
-// Headings offset between the headings and the top of the document (this is meant for minor adjustments).
+// Headings offset between the headings and the top of
+// the document (this is meant for minor adjustments).
 headingsOffset: 1,
 // Timeout between events firing to make sure it's
 // not too rapid (for performance reasons).
@@ -189,7 +202,7 @@ positionFixedClass: 'is-position-fixed',
 // element's offsetTop from the top of the document on init.
 fixedSidebarOffset: 'auto',
 // includeHtml can be set to true to include the HTML markup from the
-// heading node instead of just including the textContent.
+// heading node instead of just including the innerText.
 includeHtml: false,
 // includeTitleTags automatically sets the html title tag of the link
 // to match the title. This can be useful for SEO purposes or
@@ -202,9 +215,9 @@ onClick: function (e) {},
 // orderedList can be set to false to generate unordered lists (ul)
 // instead of ordered lists (ol)
 orderedList: true,
-// If there is a fixed article scroll container, set to calculate titles' offset
+// If there is a fixed article scroll container, set to calculate offset.
 scrollContainer: null,
-// prevent ToC DOM rendering if it's already rendered by an external system
+// prevent ToC DOM rendering if it's already rendered by an external system.
 skipRendering: false,
 // Optional callback to change heading labels.
 // For example it can be used to cut down and put ellipses on multiline headings you deem too long.
@@ -216,7 +229,8 @@ headingLabelCallback: false,
 // ignore headings that are hidden in DOM
 ignoreHiddenElements: false,
 // Optional callback to modify properties of parsed headings.
-// The heading element is passed in node parameter and information parsed by default parser is provided in obj parameter.
+// The heading element is passed in node parameter and information
+// parsed by default parser is provided in obj parameter.
 // Function has to return the same or modified obj.
 // The heading will be excluded from TOC if nothing is returned.
 // function (object, HTMLElement) => object | void
@@ -226,9 +240,17 @@ basePath: '',
 // Only takes affect when `tocSelector` is scrolling,
 // keep the toc scroll position in sync with the content.
 disableTocScrollSync: false,
+// If this is null then just use `tocElement` or `tocSelector` instead
+// assuming `disableTocScrollSync` is set to false. This allows for
+// scrolling an outer element (like a nav panel w/ search) containing the toc.
+// Please pass an element, not a selector here.
+tocScrollingWrapper: null,
 // Offset for the toc scroll (top) position when scrolling the page.
 // Only effective if `disableTocScrollSync` is false.
-tocScrollOffset: 0,
+tocScrollOffset: 30,
+// Enable the URL hash to update with the proper heading ID as
+// a user scrolls the page.
+enableUrlHashUpdateOnScroll: false
 ```
 
 
@@ -263,6 +285,7 @@ tocbot.refresh()
 
 - Tocbot scrolls to the right position onClick but highlighting doesn't seem to show the active section
   - Try running this from the console: `tocbot.refresh({ ...tocbot.options, hasInnerContainers: true })`. If that works then one option (`hasInnerContainers: true`) to handle inner containers should be all you need to add.
+- If you have a really long TOC and are seeing headings getting truncated, then have a [look at this issue for a workaround to resolve it](https://github.com/tscanlin/tocbot/issues/330).
 
 
 ## Contributing
@@ -287,6 +310,17 @@ npm run test
 - commit dist/
 - run `npm publish`
 - make release on github
+
+
+## Sponsors
+
+If you find Tocbot useful, consider supporting it by becoming a sponsor. You can do this by visiting [the tocbot repo on github](https://github.com/tscanlin/tocbot) and clicking the "Sponsor" button at the top of the page. This will help me continue to develop and maintain Tocbot. Sponsors that contribute $5 /month or more will have their logos shown below. Thank you!
+
+<img width="50" height="50" src="https://raw.githubusercontent.com/tscanlin/tocbot/master/static/img/getsentry.png" alt="Sentry"><span>&nbsp;</span><a href="https://sentry.io/" target="_blank">Sentry</a>
+<br /><br />
+
+<img width="50" height="50" src="https://raw.githubusercontent.com/tscanlin/tocbot/master/static/img/roboflow.png" alt="Roboflow"><span>&nbsp;</span><a href="https://www.roboflow.com/" target="_blank">Roboflow</a>
+<br /><br />
 
 
 ## License
